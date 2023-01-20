@@ -1,0 +1,30 @@
+#!/usr/bin/make -f
+
+.ONESHELL:
+.SHELL = bash
+.SHELLFLAGS = -euc
+
+DEB_VERSION := $(shell dpkg-parsechangelog | egrep '^Version:' | cut -f 2 -d ' ')
+
+clean:
+	(
+		cd libstrangle
+		make clean
+	)
+
+build:
+	(
+		cd libstrangle
+		make prefix=/usr
+	)
+
+binary:
+	rm -rf debian/tmp
+	mkdir -p debian/tmp/DEBIAN
+	dpkg-gencontrol -plibstrangle
+	(
+		cd libstrangle
+		make install prefix=/usr DESTDIR=../debian/tmp
+	)
+	env | sort
+	dpkg-deb --build debian/tmp ../libstrangle_$(DEB_VERSION)_$${DEB_TARGET_ARCH}.deb

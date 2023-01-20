@@ -1,0 +1,9 @@
+Source: libstrangle
+Maintainer: Jarrad Whitaker <akdor1154 📧 gmail.com>
+Priority: optional
+Section: games
+Build-Depends-Arch: libc6-dev, gcc-multilib, g++-multilib, libx11-dev, mesa-common-dev
+
+Package: libstrangle
+Architecture: amd64
+Description: Framerate limiter intended for games.
