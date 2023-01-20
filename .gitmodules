@@ -1,0 +1,3 @@
+[submodule "libstrangle"]
+	path = libstrangle
+	url = https://gitlab.com/torkel104/libstrangle
