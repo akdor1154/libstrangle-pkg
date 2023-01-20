@@ -22,6 +22,7 @@ binary:
 	rm -rf debian/tmp
 	mkdir -p debian/tmp/DEBIAN
 	dpkg-gencontrol -plibstrangle
+	cp -a debian/postinst debian/tmp/DEBIAN
 	(
 		cd libstrangle
 		make install prefix=/usr DESTDIR=../debian/tmp
