@@ -5,7 +5,7 @@ SHELL = bash
 .PHONY: default
 default: sourcepkg
 
-include ../../versions.mk
+include ../versions.mk
 
 export EMAIL := akdor1154@noreply.users.github.com
 
@@ -28,7 +28,7 @@ build/libstrangle_$(UPSTREAM_VERSION).orig.tar.xz: ./build
 
 
 
-DEBIAN_FILES := $(shell find ../debian/ -print)
+DEBIAN_FILES := $(shell find ../../debian/ -print)
 
 export ALLOW_DIRTY := ""
 
@@ -42,9 +42,10 @@ debian: ./build/pkg/debian
 			git diff --exit-code 1>&2 || exit 1
 			git archive \
 				--format=tar \
-				HEAD
+				HEAD \
+				debian
 		else
-			git ls-files \
+			git ls-files debian \
 			| xargs tar -c 
 		fi
 	) | \

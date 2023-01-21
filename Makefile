@@ -1,18 +1,25 @@
-include versions.mk
+#include versions.mk
 
 default: 02-binary
 
+# build a source package from this repo
 .PHONY: 01-source
 01-source:
-	$(MAKE) -C 01-source
+	$(MAKE) -C debian/01-source
 
+# build a binary package from the source package above
 .PHONY: 02-binary
 02-binary: 01-source
-	$(MAKE) -C 02-binary
+	$(MAKE) -C debian/02-binary
+
+# build a binary package directly from this repo
+.PHONY: 02-binary-direct
+02-binary-direct:
+	dpkg-buildpackage -rfakeroot --build=binary
 
 clean:
-	$(MAKE) -C 01-source clean
-	$(MAKE) -C 02-binary clean
+	$(MAKE) -C debian/01-source clean
+	$(MAKE) -C debian/02-binary clean
 
 .PHONY: compute-deps
 compute-deps:
