@@ -46,4 +46,4 @@ package: image ./build
 	podman start --attach libstranglebuild
 
 clean:
-	rm -r build
+	rm -rf build

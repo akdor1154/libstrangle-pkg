@@ -72,4 +72,4 @@ sourcepkg: | ./build/libstrangle_$(VERSION).dsc
 
 .PHONY: clean
 clean:
-	rm -r ./build
+	rm -rf ./build
