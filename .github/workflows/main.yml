@@ -57,12 +57,12 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: debs
-          path: 
-            - ./*.deb
-            - ./*.dsc
-            - ./*.tar.xz
-            - ./*.buildinfo
-            - ./*.changes
+          path: |
+            ./*.deb
+            ./*.dsc
+            ./*.tar.xz
+            ./*.buildinfo
+            ./*.changes
 
       - name: save container image cache
         uses: actions/cache/save@v3

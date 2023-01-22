@@ -11,6 +11,7 @@ clean:
 		cd libstrangle
 		make clean
 	)
+	rm -rf pkgroot
 
 build:
 	(
