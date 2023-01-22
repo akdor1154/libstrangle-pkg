@@ -126,6 +126,7 @@ changelog:
 	dch -v$(VERSION)
 
 export VERSION
+export TAG_SAFE_VERSION := $(shell echo "$${VERSION:?}" | sed s/~/_/g )
 
 .PHONY: release
 release:
@@ -135,11 +136,11 @@ release:
 	)
 	git add -p
 	git commit -m "v$${VERSION:?}"
-	git tag -a "v$${VERSION:?}" -m "v$${VERSION:?}"
+	git tag -a "v$${TAG_SAFE_VERSION:?}" -m "v$${VERSION:?}"
 
 .PHONY: github_release
 github_release:
-	git name-rev --name-only --tags --refs v$${VERSION:?} --no-undefined HEAD || exit 1
+	git name-rev --name-only --tags --refs v$${TAG_SAFE_VERSION:?} --no-undefined HEAD || exit 1
 	dpkg-parsechangelog -l package/debian/changelog > gh_changelog
 	gh release create "v$${VERSION:?}" \
 		--title "v$${VERSION:?}" \
