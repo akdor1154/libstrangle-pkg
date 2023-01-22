@@ -162,7 +162,7 @@ github_release:
 		dpkg-parsechangelog -l package/debian/changelog
 		echo '```'
 	) > gh_changelog
-	gh release create "v$${VERSION:?}" \
+	gh release create "v$${TAG_SAFE_VERSION:?}" \
 		--title "v$${VERSION:?}" \
 		--notes-file gh_changelog \
 		--draft \
