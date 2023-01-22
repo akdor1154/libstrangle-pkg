@@ -1,5 +1,11 @@
 libstrangle (0.1.1~22~g0273e31-5) stable; urgency=medium
 
+  * gha release attempt
+
+ -- Jarrad Whitaker <akdor1154@noreply.users.github.com>  Sun, 22 Jan 2023 19:46:39 +1100
+
+libstrangle (0.1.1~22~g0273e31-5) stable; urgency=medium
+
   * fix versionny stuff
 
  -- Jarrad Whitaker <akdor1154@noreply.users.github.com>  Sun, 22 Jan 2023 19:37:26 +1100
