@@ -1,5 +1,6 @@
-libstrangle (0.0.0) UNRELEASED; urgency=medium
+libstrangle (0.1.1~22~g0273e31-1) UNRELEASED; urgency=medium
 
   * Initial release.
+  * maybe finalize packaging?
 
- -- Jarrad Whitaker <akdor1154 📧 gmail.com>  Fri, 20 Jan 2023 18:14:53 +1100
+ -- Jarrad Whitaker <akdor1154@noreply.users.github.com>  Sun, 22 Jan 2023 17:15:18 +1100

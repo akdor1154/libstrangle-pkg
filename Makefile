@@ -1,11 +1,15 @@
-#include versions.mk
+.ONESHELL:
+SHELL = bash
+.SHELLFLAGS = -euc
 
 default: 02-binary
+
+include versions.mk
 
 # build a source package from this repo
 .PHONY: 01-source
 01-source:
-	$(MAKE) -C 01-source
+	$(MAKE) -f 01-source.mk
 
 # build a binary package from the source package above
 .PHONY: 02-binary
@@ -18,8 +22,19 @@ default: 02-binary
 	dpkg-buildpackage -rfakeroot --build=binary
 
 clean:
-	$(MAKE) -C 01-source clean
+	$(MAKE) -f 01-source.mk clean
 	$(MAKE) -C 02-binary clean
+	(
+		cd package/libstrangle
+		git clean -xdf .
+	)
+
+
+export EMAIL := akdor1154@noreply.users.github.com
+
+changelog:
+	cd ./package
+	dch -v$(VERSION)
 
 .PHONY: compute-deps
 compute-deps:
