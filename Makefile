@@ -166,9 +166,9 @@ github_release:
 		--title "v$${VERSION:?}" \
 		--notes-file gh_changelog \
 		--draft \
-		libstrangle_$${VERSION:?}_amd64.deb
-		$(DSC)
-		$(ORIG.tar.xz)
+		libstrangle_$${VERSION:?}_amd64.deb \
+		$(DSC) \
+		$(ORIG.tar.xz) \
 		libstrangle_$${VERSION:?}.debian.tar.xz
 
 
