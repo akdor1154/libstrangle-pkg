@@ -44,6 +44,7 @@ jobs:
       - name: Fetch tags
         run: |
           cd package/libstrangle
+          git fetch
           git fetch --tags --force
 
       - name: Build source package
