@@ -1,5 +1,11 @@
 libstrangle (0.1.1~22~g0273e31-2) stable; urgency=medium
 
+  * build with gha
+
+ -- Jarrad Whitaker <akdor1154@noreply.users.github.com>  Sun, 22 Jan 2023 19:17:17 +1100
+
+libstrangle (0.1.1~22~g0273e31-2) stable; urgency=medium
+
   * Make changelog generation better
 
  -- Jarrad Whitaker <akdor1154@noreply.users.github.com>  Sun, 22 Jan 2023 18:13:21 +1100
