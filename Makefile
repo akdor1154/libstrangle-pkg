@@ -125,7 +125,7 @@ changelog:
 	cd package
 	dch -v$(VERSION)
 
-TAG_SAFE_VERSION := $(shell echo "$${VERSION:?}" | sed s/~/_/g )
+TAG_SAFE_VERSION := $(shell echo "$(VERSION)" | sed s/~/_/g )
 export VERSION
 export TAG_SAFE_VERSION
 
