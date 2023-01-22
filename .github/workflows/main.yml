@@ -22,10 +22,7 @@ jobs:
       - name: Fetch tags
         run: |
           cd package/libstrangle
-          git fetch
-          git fetch --tags --force
           git describe --tags
-          git describe --tags --debug
 
       - name: prepare
         uses: ./.github/actions/cachetar
@@ -98,6 +95,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+          
       - uses: actions/download-artifact@v3
         with:
           name: debs

@@ -5,10 +5,6 @@ SHELL = bash
 default: 02-binary
 
 include versions.mk
-UPSTREAM_VERSION := $(shell \
-	cd package/libstrangle; \
-	git describe --tags HEAD | sed s/-/~/g \
-)
 VERSION := $(UPSTREAM_VERSION)-$(MY_VERSION)
 
 export ALLOW_DIRTY := 
@@ -23,8 +19,27 @@ DSC := libstrangle_$(VERSION).dsc
 .PHONY: 01-source
 01-source: | $(DSC)
 
+.PHONY: check-version
+check-version:
+	CHECKED_VERSION=$$(
+		cd package/libstrangle;
+		git describe --tags HEAD | sed s/-/~/g
+	)
+	if [[ "$${CHECKED_VERSION:?}" != "$(UPSTREAM_VERSION)" ]]; then
+		echo "version mismatch! submodule checkout is $${CHECKED_VERSION}, but versions.mk is $(UPSTREAM_VERSION)!" 1>&1
+		exit 1
+	fi
+	CHANGELOG_VERSION=$$(
+		dpkg-parsechangelog -l package/debian/changelog --show-field Version
+	)
+	if [[ "$${CHANGELOG_VERSION}" != "$(VERSION)" ]]; then
+		echo "version mismatch! changelog version is $${CHANGELOG_VERSION}, but versions.mk is $(VERSION)!" 1>&2
+		echo "run \`make changelog\` to fix." 1>&2
+		exit 1
+	fi
+
 # build the orig.tar.xz tarball from the project's submodule directory
-$(ORIG.tar.xz):
+$(ORIG.tar.xz): check-version
 	(
 		cd ./package/libstrangle
 		git archive \
@@ -130,7 +145,7 @@ export VERSION
 export TAG_SAFE_VERSION
 
 .PHONY: release
-release:
+release: check-version
 	(
 		cd package
 		dch --distribution stable --release
