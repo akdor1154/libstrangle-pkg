@@ -1,1 +1,1 @@
-MY_VERSION := 1
+MY_VERSION := 2
