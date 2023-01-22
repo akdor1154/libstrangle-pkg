@@ -142,7 +142,11 @@ release:
 .PHONY: github_release
 github_release:
 	git name-rev --name-only --tags --refs v$${TAG_SAFE_VERSION:?} --no-undefined HEAD || exit 1
-	dpkg-parsechangelog -l package/debian/changelog > gh_changelog
+	(
+		echo '```'
+		dpkg-parsechangelog -l package/debian/changelog
+		echo '```'
+	) > gh_changelog
 	gh release create "v$${VERSION:?}" \
 		--title "v$${VERSION:?}" \
 		--notes-file gh_changelog \
