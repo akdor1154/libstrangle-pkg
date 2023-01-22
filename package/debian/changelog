@@ -1,3 +1,9 @@
+libstrangle (0.1.1~22~g0273e31-4) stable; urgency=medium
+
+  * stuffed up -3 release
+
+ -- Jarrad Whitaker <akdor1154@noreply.users.github.com>  Sun, 22 Jan 2023 19:19:35 +1100
+
 libstrangle (0.1.1~22~g0273e31-2) stable; urgency=medium
 
   * build with gha
