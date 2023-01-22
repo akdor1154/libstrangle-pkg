@@ -125,11 +125,13 @@ changelog:
 	cd package
 	dch -v$(VERSION)
 
+export VERSION
+
 .PHONY: release
 release:
 	(
 		cd package
-		dch -c changelog --distribution stable --release
+		dch --distribution stable --release
 	)
 	git add -p
 	git commit -m "v$${VERSION:?}"
