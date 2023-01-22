@@ -1,0 +1,101 @@
+name: build package
+on:
+  push:
+    branches: [ main, gha ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  package:
+    runs-on: ubuntu-latest
+#    container: archlinux:base-devel
+    steps:
+      - name: prepare build deps
+        run: |
+          sudo apt-get install -y lintian
+
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: prepare
+        uses: ./.github/actions/cachetar
+        
+      - name: container apt cache
+        uses: actions/cache/restore@v3
+        env:
+          PATH: /cachetar:/usr/local/bin:/usr/bin:/bin
+        with:
+          path: .cache
+          key: apt-cache-${{ github.run_id }}
+          restore-keys: |
+            apt-cache
+
+      - name: container image cache
+        uses: actions/cache/restore@v3
+        env:
+          PATH: /cachetar:/usr/local/bin:/usr/bin:/bin
+        with:
+          path: ~/.local/share/containers/storage
+          key: podman-cache-${{ github.run_id }}
+          restore-keys: |
+            podman-cache
+
+      - name: Build source package
+        run: |
+          make 01-source
+
+      - name: Build build image
+        run: |
+          make image
+
+      - name: Build binary package
+        run: |
+          make 02-binary
+
+      - name: Publish artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: debs
+          path: 
+            - ./*.deb
+            - ./*.dsc
+            - ./*.tar.xz
+            - ./*.buildinfo
+            - ./*.changes
+
+      - name: save container image cache
+        uses: actions/cache/save@v3
+        if: always()
+        env:
+          PATH: /cachetar:/usr/local/bin:/usr/bin:/bin
+        with:
+          path: ~/.local/share/containers/storage
+          key: podman-cache-${{ github.run_id }}
+
+      - name: save apt cache
+        uses: actions/cache/save@v3
+        if: always()
+        env:
+          PATH: /cachetar:/usr/local/bin:/usr/bin:/bin
+        with:
+          path: .cache
+          key: apt-cache-${{ github.run_id }}
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: debs
+          path: .
+
+      - name: Publish github release
+        run: |
+          git fetch --tags --force
+          make github_release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
