@@ -101,22 +101,50 @@ clean-binary:
 		debian/rules clean
 	)
 
+
 ###
 ### BINARY PACKAGE direct from the current contents of this repo
 ###
 
 .PHONY: package-direct
 package-direct:
-	cd ./package
+	cd package
 	dpkg-buildpackage -rfakeroot --build=binary
 
 clean: clean-source clean-binary
 
+
+###
+### RELEASE MANAGEMENT
+###
+
 export EMAIL := akdor1154@noreply.users.github.com
 
+.PHONY: changelog
 changelog:
-	cd ./package
+	cd package
 	dch -v$(VERSION)
+
+.PHONY: release
+release:
+	(
+		cd package
+		dch -c changelog --distribution stable --release
+	)
+	git add -p
+	git commit -m "v$${VERSION:?}"
+	git tag -a "v$${VERSION:?}" -m "v$${VERSION:?}"
+
+.PHONY: github_release
+github_release:
+	git name-rev --name-only --tags --refs v$${VERSION:?} --no-undefined HEAD || exit 1
+	dpkg-parsechangelog -l package/debian/changelog > gh_changelog
+	gh release create "v$${VERSION:?}" \
+		--title "v$${VERSION:?}" \
+		--notes-file gh_changelog \
+		--draft \
+		libstrangle_$${VERSION:?}_amd64.deb
+
 
 .PHONY: compute-deps
 compute-deps:
