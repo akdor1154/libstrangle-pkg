@@ -41,6 +41,11 @@ jobs:
           restore-keys: |
             podman-cache
 
+      - name: Fetch tags
+        run: |
+          cd package/libstrangle
+          git fetch --tags --force
+
       - name: Build source package
         run: |
           make 01-source
