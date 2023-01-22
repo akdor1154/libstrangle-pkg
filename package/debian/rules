@@ -27,5 +27,4 @@ binary:
 		cd libstrangle
 		make install prefix=/usr DESTDIR=../pkgroot
 	)
-	env | sort
 	dpkg-deb --build pkgroot ../libstrangle_$(DEB_VERSION)_$${DEB_TARGET_ARCH}.deb
