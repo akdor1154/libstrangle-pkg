@@ -37,15 +37,15 @@ debian: ./build/pkg/debian
 ./build/pkg/debian: $(DEBIAN_FILES) ./build
 	set -o pipefail
 	(
-		cd ../
+		cd ../package
 		if [[ -z "$${ALLOW_DIRTY}" ]]; then
 			git diff --exit-code 1>&2 || exit 1
 			git archive \
 				--format=tar \
 				HEAD \
-				package/debian
+				debian
 		else
-			git ls-files package/debian \
+			git ls-files debian \
 			| xargs tar -c 
 		fi
 	) \

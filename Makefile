@@ -18,8 +18,8 @@ default: 02-binary
 	dpkg-buildpackage -rfakeroot --build=binary
 
 clean:
-	$(MAKE) -C debian/01-source clean
-	$(MAKE) -C debian/02-binary clean
+	$(MAKE) -C 01-source clean
+	$(MAKE) -C 02-binary clean
 
 .PHONY: compute-deps
 compute-deps:

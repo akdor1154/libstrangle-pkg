@@ -20,11 +20,11 @@ DSC := ../01-source/build/libstrangle_$(VERSION).dsc
 
 .PHONY: image
 image: ./build
-	mkdir -p ../../.cache/image-apt-cache
+	mkdir -p ../.cache/image-apt-cache
 	DEPS="$$(./build_deps.pl './build/libstrangle-$(UPSTREAM_VERSION)/debian/control')"
 	podman build \
 		--tag libstranglebuildimg \
-		--volume $$(pwd)/../../.cache/image-apt-cache:/var/cache/apt:U \
+		--volume $$(pwd)/../.cache/image-apt-cache:/var/cache/apt:U \
 		--build-arg BUILD_DEPS="$${DEPS}" \
 		-f package.Containerfile .
 
