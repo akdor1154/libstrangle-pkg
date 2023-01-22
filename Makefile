@@ -125,8 +125,9 @@ changelog:
 	cd package
 	dch -v$(VERSION)
 
+TAG_SAFE_VERSION := $(shell echo "$${VERSION:?}" | sed s/~/_/g )
 export VERSION
-export TAG_SAFE_VERSION := $(shell echo "$${VERSION:?}" | sed s/~/_/g )
+export TAG_SAFE_VERSION
 
 .PHONY: release
 release:
